@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatturazione</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .xml-button {
+            background-color: blue;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        .xml-button:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fatturazione</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Genera Fattura</th>
+                <th>Nome</th>
+                <th>Importo</th>
+                <th>Data</th>
+                <th>Progressivo Fattura</th>
+            </tr>
+        </thead>
+        <tbody id="dati-tabella">
+            <!-- Le righe saranno aggiunte dinamicamente con JavaScript -->
+        </tbody>
+    </table>
+
+    <script>
+        // Caricamento dinamico dei dati dal file JSON
+        fetch('../fatturazione_automat/clientlist.json')
+            .then(response => response.json())
+            .then(data => {
+                const tbody = document.getElementById('dati-tabella');
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><button class="xml-button">XML</button></td>
+                        <td>${item.name}</td>
+                        <td>${item.status}</td>
+                        <td>${item.arrival}</td>
+                        <td>${item.progressivo_fattura}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            })
+            .catch(error => console.error('Errore nel caricamento dei dati:', error));
+    </script>
+</body>
+</html>
